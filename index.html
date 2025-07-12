@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR Debug View (Fixed)</title>
+    <title>ARで粉が溶ける様子を可視化</title>
+    <meta charset="utf-8">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <script>
-      console.log("✅ A-Frame loaded");
-      window.addEventListener('DOMContentLoaded', () => {
-        console.log("✅ DOM fully loaded and parsed");
-      });
-    </script>
     <style>
       body { margin: 0; overflow: hidden; }
     </style>
+    <script>
+      AFRAME.registerComponent('dissolve-particles', {
+        init: function () {
+          const el = this.el;
+          const scene = el.sceneEl;
+          for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('a-sphere');
+            const x = (Math.random() - 0.5) * 0.2;
+            const z = (Math.random() - 0.5) * 0.2;
+            particle.setAttribute('position', `${x} 0.1 ${z}`);
+            particle.setAttribute('radius', '0.01');
+            particle.setAttribute('color', '#FFA500');
+            particle.setAttribute('animation', `property: position; to: ${x} 0.5 ${z}; dur: 3000; easing: easeOutQuad; loop: true; dir: alternate`);
+            el.appendChild(particle);
+          }
+        }
+      });
+    </script>
   </head>
   <body>
     <a-scene embedded arjs>
       <a-marker preset="hiro">
-        <a-box position='0 0.5 0' material='color: red;'></a-box>
+        <a-entity dissolve-particles></a-entity>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
     <p style="position: fixed; top: 10px; left: 10px; background: white; padding: 5px;">
-      ✅ Debug mode active (fixed CDN)
+      🧪 粉が溶けて広がる様子（AR）
     </p>
   </body>
 </html>
