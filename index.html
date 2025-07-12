@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ARで砂糖の広がりを可視化</title>
+    <title>AR Debug View</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ar.js@3.3.2/aframe/build/aframe-ar.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <script>
+      console.log("✅ A-Frame loaded");
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log("✅ DOM fully loaded and parsed");
+      });
+    </script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+    </style>
   </head>
-  <body style="margin: 0; overflow: hidden;">
+  <body>
     <a-scene embedded arjs>
       <a-marker preset="hiro">
-        <a-entity id="particles" position="0 0 0">
-          <a-sphere position="0 0.1 0" radius="0.05" color="orange" animation="property: position; to: 0 0.5 0; dur: 2000; dir: alternate; loop: true;"></a-sphere>
-          <a-sphere position="0.1 0.1 0" radius="0.05" color="orange" animation="property: position; to: 0.1 0.6 0; dur: 2000; dir: alternate; loop: true;"></a-sphere>
-          <a-sphere position="-0.1 0.1 0" radius="0.05" color="orange" animation="property: position; to: -0.1 0.6 0; dur: 2000; dir: alternate; loop: true;"></a-sphere>
-        </a-entity>
+        <a-box position='0 0.5 0' material='color: red;'></a-box>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
+    <p style="position: fixed; top: 10px; left: 10px; background: white; padding: 5px;">
+      ✅ Debug mode active
+    </p>
   </body>
 </html>
