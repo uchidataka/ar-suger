@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ARで粉が溶ける様子を可視化</title>
+    <title>粉が溶けて広がる様子（リアルVer.）</title>
     <meta charset="utf-8">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -12,15 +12,35 @@
       AFRAME.registerComponent('dissolve-particles', {
         init: function () {
           const el = this.el;
-          const scene = el.sceneEl;
-          for (let i = 0; i < 30; i++) {
+          for (let i = 0; i < 50; i++) {
             const particle = document.createElement('a-sphere');
-            const x = (Math.random() - 0.5) * 0.2;
-            const z = (Math.random() - 0.5) * 0.2;
-            particle.setAttribute('position', `${x} 0.1 ${z}`);
+            const startX = (Math.random() - 0.5) * 0.1;
+            const startZ = (Math.random() - 0.5) * 0.1;
+            const endX = startX + (Math.random() - 0.5) * 0.3;
+            const endY = 0.6 + Math.random() * 0.2;
+            const endZ = startZ + (Math.random() - 0.5) * 0.3;
+
+            particle.setAttribute('position', `${startX} 0.1 ${startZ}`);
             particle.setAttribute('radius', '0.01');
             particle.setAttribute('color', '#FFA500');
-            particle.setAttribute('animation', `property: position; to: ${x} 0.5 ${z}; dur: 3000; easing: easeOutQuad; loop: true; dir: alternate`);
+            particle.setAttribute('material', 'opacity: 1; transparent: true;');
+
+            particle.setAttribute('animation__move', `
+              property: position;
+              to: ${endX} ${endY} ${endZ};
+              dur: 3000;
+              easing: easeOutCubic;
+              loop: false;
+            `);
+
+            particle.setAttribute('animation__fade', `
+              property: material.opacity;
+              to: 0;
+              dur: 3000;
+              easing: linear;
+              loop: false;
+            `);
+
             el.appendChild(particle);
           }
         }
@@ -35,7 +55,7 @@
       <a-entity camera></a-entity>
     </a-scene>
     <p style="position: fixed; top: 10px; left: 10px; background: white; padding: 5px;">
-      🧪 粉が溶けて広がる様子（AR）
+      🧪 粉がふわっと拡がって消える様子
     </p>
   </body>
 </html>
